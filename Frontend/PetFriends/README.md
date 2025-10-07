@@ -1,59 +1,49 @@
-# PetFriends
+# PetMatch Frontend (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.2.
+## Resumen
+- **Framework**: Angular 17 (standalone components) con `HttpClient` y formularios reactivos.
+- **Objetivo**: Permitir registro/login, exploracion de mascotas, solicitudes de adopcion y paneles basicos para refugios y administradores.
+- **Diseño**: Layout responsivo sencillo, componentes reutilizables (`PetCard`) y servicios centralizados en `core/`.
 
-## Development server
+## Estructura clave (`src/app`)
+- `core/models`: Tipos compartidos (`User`, `Pet`, `AdoptionRequest`, `Auth`).
+- `core/services`: `api`, `auth`, `pet`, `adoption`, `admin` encapsulan llamadas al backend y cabeceras JWT.
+- `core/guards/auth.guard.ts`: Protege rutas y valida roles (`adopter`, `shelter`, `admin`).
+- `shared/components/pet-card`: Tarjeta reutilizable para el listado.
+- `features/...`: Secciones por dominio
+  - `pets/pages/home`: landing + filtros dinamicos, consumo del catalogo.
+  - `pets/pages/pet-detail`: ficha + formulario de solicitud.
+  - `auth/login` y `auth/register`: formularios reactivos con validaciones.
+  - `adoption/pages/requests`: listado contextual (adoptante/refugio) con acciones.
+  - `admin/pages/users`: panel para aprobar refugios.
 
-To start a local development server, run:
+## Integracion API
+- Base URL inyectable via token `API_BASE_URL` (por defecto `http://localhost:8080/api/v1`).
+- `AuthService` maneja sesion (localStorage) y headers `Authorization`.
+- Tras inicio de sesion se refresca el usuario con `/auth/me` para sincronizar roles.
 
+## Rutas
+| Ruta | Rol | Componente |
+| --- | --- | --- |
+| `/` | Publico | HomeComponent |
+| `/pets/:id` | Publico | PetDetailComponent |
+| `/auth/login` | Publico | LoginComponent |
+| `/auth/register` | Publico | RegisterComponent |
+| `/adoption-requests` | Adoptante/Refugio | RequestsComponent |
+| `/admin/users` | Admin | UsersComponent |
+
+## Scripts npm
 ```bash
-ng serve
+npm install        # instala dependencias
+npm start          # ng serve --open
+npm run build      # build de produccion (genera /dist)
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Variables utiles
+Ajusta el token en `core/config/api.tokens.ts` o redefine el provider en `main.ts` para apuntar a otro backend.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Mejoras futuras
+- Internacionalizacion e inclusion de un estado global.
+- Estados de carga/toasts centralizados.
+- Integrar subida real de imagenes y perfiles ampliados.
+- Añadir pruebas unitarias (Karma/Jest) para servicios y componentes.

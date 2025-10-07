@@ -1,0 +1,38 @@
+<section class="auth-card">
+  <header>
+    <p class="eyebrow">Bienvenido de vuelta</p>
+    <h1>Inicia sesión en PetMatch</h1>
+    <p class="hint">Ingresa tus credenciales para gestionar adopciones o solicitudes.</p>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      Correo electrónico
+      <input formControlName="email" type="email" autocomplete="email" />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <span class="error">Correo inválido</span>
+      }
+    </label>
+
+    <label>
+      Contraseña
+      <input formControlName="password" type="password" autocomplete="current-password" />
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <span class="error">Debe contener al menos 6 caracteres</span>
+      }
+    </label>
+
+    @if (error()) {
+      <div class="alert">{{ error() }}</div>
+    }
+
+    <button type="submit" [disabled]="loading()">Entrar</button>
+  </form>
+
+  <footer>
+    <p>
+      ¿Aún no tienes cuenta?
+      <a routerLink="/auth/register">Crea una ahora</a>
+    </p>
+  </footer>
+</section>

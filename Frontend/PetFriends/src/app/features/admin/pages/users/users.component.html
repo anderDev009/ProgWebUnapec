@@ -1,0 +1,79 @@
+<section class="header">
+  <h1>Panel de usuarios</h1>
+  <p>Revisa los registros y aprueba los refugios que hayan enviado su solicitud.</p>
+</section>
+
+<section class="filters">
+  <form [formGroup]="filters" (ngSubmit)="fetchUsers()">
+    <label>
+      Rol
+      <select formControlName="role">
+        <option value="">Todos</option>
+        <option value="adopter">Adoptantes</option>
+        <option value="shelter">Refugios</option>
+        <option value="admin">Administradores</option>
+      </select>
+    </label>
+
+    <label>
+      Estado
+      <select formControlName="approved">
+        <option value="">Todos</option>
+        <option value="true">Aprobados</option>
+        <option value="false">Pendientes</option>
+      </select>
+    </label>
+
+    <button type="submit">Aplicar</button>
+  </form>
+</section>
+
+@if (loading()) {
+  <section class="state">
+    <p>Cargando usuarios...</p>
+  </section>
+} @else if (error()) {
+  <section class="state state--error">
+    <p>{{ error() }}</p>
+  </section>
+} @else {
+  @if (success()) {
+    <div class="toast">{{ success() }}</div>
+  }
+
+  <section class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users(); track user.id) {
+          <tr>
+            <td>
+              <strong>{{ user.name }}</strong>
+              <span class="muted" *ngIf="user.shelterName"> · {{ user.shelterName }}</span>
+            </td>
+            <td>{{ user.email }}</td>
+            <td class="badge">{{ user.role | uppercase }}</td>
+            <td>
+              <span class="status" [class.status--approved]="user.isApproved">
+                {{ user.isApproved ? 'Aprobado' : 'Pendiente' }}
+              </span>
+            </td>
+            <td class="actions">
+              @if (!user.isApproved && user.role === 'shelter') {
+                <button type="button" (click)="approve(user)">Aprobar refugio</button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+}

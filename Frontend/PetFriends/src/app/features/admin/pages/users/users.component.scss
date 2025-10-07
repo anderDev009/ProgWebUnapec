@@ -1,0 +1,142 @@
+.header {
+  margin-bottom: 1.5rem;
+
+  h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: #111827;
+  }
+
+  p {
+    margin-top: 0.5rem;
+    color: #4b5563;
+  }
+}
+
+.filters {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  margin-bottom: 1.5rem;
+
+  form {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      color: #374151;
+
+      select {
+        padding: 0.65rem 1rem;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        min-width: 180px;
+      }
+    }
+
+    button {
+      padding: 0.65rem 1.5rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(90deg, #6366f1, #f472b6);
+      color: #ffffff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+}
+
+.state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  border-radius: 16px;
+  background: rgba(99, 102, 241, 0.06);
+  color: #4338ca;
+
+  &--error {
+    background: rgba(248, 113, 113, 0.12);
+    color: #b91c1c;
+  }
+}
+
+.toast {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.table {
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  }
+
+  th,
+  td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  th {
+    font-weight: 700;
+    color: #1f2937;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  tbody tr:hover {
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .muted {
+    color: #6b7280;
+    font-size: 0.85rem;
+  }
+
+  .badge {
+    font-weight: 600;
+    color: #4338ca;
+  }
+
+  .status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(248, 113, 113, 0.15);
+    color: #b91c1c;
+    font-weight: 600;
+
+    &--approved {
+      background: rgba(16, 185, 129, 0.15);
+      color: #047857;
+    }
+  }
+
+  .actions {
+    button {
+      padding: 0.55rem 1.25rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(90deg, #60a5fa, #4f46e5);
+      color: #ffffff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+}

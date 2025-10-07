@@ -1,0 +1,66 @@
+<section class="header">
+  <h1>Solicitudes de adopción</h1>
+  @if (isShelter()) {
+    <p>Gestiona las solicitudes que recibes. Acepta o rechaza para informar al adoptante.</p>
+  } @else {
+    <p>Consulta el estado de tus solicitudes y mantente atento a las respuestas del refugio.</p>
+  }
+</section>
+
+@if (loading()) {
+  <section class="state">
+    <p>Cargando solicitudes...</p>
+  </section>
+} @else if (error()) {
+  <section class="state state--error">
+    <p>{{ error() }}</p>
+  </section>
+} @else if (requests().length === 0) {
+  <section class="state">
+    <p>Aún no hay solicitudes registradas.</p>
+    <a routerLink="/">Explorar mascotas</a>
+  </section>
+} @else {
+  <section class="requests">
+    @if (success()) {
+      <div class="toast">{{ success() }}</div>
+    }
+
+    @for (request of requests(); track request.id) {
+      <article class="card">
+        <header>
+          <div>
+            <h2>{{ request.pet?.name || 'Mascota' }}</h2>
+            <p class="meta">
+              Estado:
+              <span class="status" [class]="request.status"> {{ request.status | uppercase }} </span>
+            </p>
+          </div>
+          <a [routerLink]="['/pets', request.petId]" class="link">Ver ficha</a>
+        </header>
+
+        <p class="message">
+          {{ request.message || 'El adoptante no añadió un mensaje.' }}
+        </p>
+
+        <footer>
+          @if (isShelter()) {
+            <div class="actions">
+              <button type="button" (click)="updateStatus(request, 'approved')" [disabled]="request.status === 'approved'">
+                Aprobar
+              </button>
+              <button type="button" class="danger" (click)="updateStatus(request, 'rejected')" [disabled]="request.status === 'rejected'">
+                Rechazar
+              </button>
+            </div>
+          } @else {
+            <p>
+              Refugio:
+              <strong>{{ request.pet?.shelter?.shelterName || request.pet?.shelter?.name || 'Sin datos' }}</strong>
+            </p>
+          }
+        </footer>
+      </article>
+    }
+  </section>
+}

@@ -1,0 +1,46 @@
+<article class="card">
+  <a [routerLink]="['/pets', pet.id]" class="media">
+    <img
+      [src]="pet.photoURL || 'https://placehold.co/320x200?text=Pet'"
+      [alt]="pet.name"
+      loading="lazy"
+    />
+  </a>
+
+  <div class="content">
+    <header>
+      <h3>{{ pet.name }}</h3>
+      <span class="badge" [class.badge--adopted]="pet.status === 'adopted'">
+        {{ pet.status === 'available' ? 'Disponible' : 'Adoptado' }}
+      </span>
+    </header>
+
+    <dl>
+      <div>
+        <dt>Especie</dt>
+        <dd>{{ pet.species }}<span *ngIf="pet.breed"> · {{ pet.breed }}</span></dd>
+      </div>
+      <div>
+        <dt>Edad</dt>
+        <dd>{{ pet.age }} años</dd>
+      </div>
+      <div *ngIf="pet.location">
+        <dt>Ubicación</dt>
+        <dd>{{ pet.location }}</dd>
+      </div>
+      <div *ngIf="pet.shelter?.name">
+        <dt>Refugio</dt>
+        <dd>{{ pet.shelter?.shelterName || pet.shelter?.name }}</dd>
+      </div>
+    </dl>
+
+    <p class="description">
+      {{ pet.description || 'Este refugio aún no ha agregado una descripción.' }}
+    </p>
+  </div>
+
+  <footer *ngIf="showActions" class="actions">
+    <button type="button" (click)="onAdopt()">{{ actionLabel }}</button>
+    <a [routerLink]="['/pets', pet.id]" class="secondary">Ver detalles</a>
+  </footer>
+</article>

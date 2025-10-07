@@ -1,0 +1,76 @@
+<section class="hero">
+  <div class="hero__copy">
+    <p class="eyebrow">Encuentra a tu nuevo compañero</p>
+    <h1>Conecta con refugios y dale un hogar a una mascota</h1>
+    <p class="lead">
+      PetMatch centraliza perfiles de refugios y solicitudes de adopción para que el proceso sea más rápido,
+      humano y transparente.
+    </p>
+    <div class="hero__actions">
+      <a routerLink="/auth/register" class="cta">Registrarme</a>
+      <a routerLink="/auth/login" class="link">Ya tengo cuenta</a>
+    </div>
+  </div>
+  <div class="hero__stats">
+    <article>
+      <h3>{{ pets().length }}</h3>
+      <p>Mascotas disponibles</p>
+    </article>
+    <article>
+      <h3>72</h3>
+      <p>Refugios activos</p>
+    </article>
+    <article>
+      <h3>498</h3>
+      <p>Adopciones concretadas</p>
+    </article>
+  </div>
+</section>
+
+<section class="filters">
+  <form [formGroup]="filterForm" (ngSubmit)="onSearch()" class="filters__form">
+    <label>
+      Especie
+      <input formControlName="species" type="text" placeholder="Perro, gato..." />
+    </label>
+    <label>
+      Ubicación
+      <input formControlName="location" type="text" placeholder="Ciudad o provincia" />
+    </label>
+    <label>
+      Edad mínima
+      <input formControlName="minAge" type="number" min="0" />
+    </label>
+    <label>
+      Edad máxima
+      <input formControlName="maxAge" type="number" min="0" />
+    </label>
+
+    <div class="filters__actions">
+      <button type="submit">Buscar</button>
+      <button type="button" class="secondary" (click)="resetFilters()">Limpiar</button>
+    </div>
+  </form>
+</section>
+
+<section class="results">
+  @if (loading()) {
+    <div class="empty">
+      <p>Cargando mascotas...</p>
+    </div>
+  } @else if (error()) {
+    <div class="empty">
+      <p>{{ error() }}</p>
+    </div>
+  } @else if (pets().length === 0) {
+    <div class="empty">
+      <p>Aún no hay mascotas que coincidan con tu búsqueda.</p>
+    </div>
+  } @else {
+    <div class="grid">
+      @for (pet of pets(); track pet.id) {
+        <app-pet-card [pet]="pet" (adopt)="onAdopt($event)"></app-pet-card>
+      }
+    </div>
+  }
+</section>

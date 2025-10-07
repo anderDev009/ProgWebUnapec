@@ -1,0 +1,81 @@
+<section class="auth-card">
+  <header>
+    <p class="eyebrow">Únete a PetMatch</p>
+    <h1>Crea tu cuenta</h1>
+    <p class="hint">
+      Selecciona si deseas registrarte como adoptante o refugio. Las cuentas de refugio requieren aprobación de un
+      administrador.
+    </p>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      Nombre completo
+      <input formControlName="name" type="text" autocomplete="name" />
+      @if (form.controls.name.touched && form.controls.name.invalid) {
+        <span class="error">Ingresa tu nombre completo</span>
+      }
+    </label>
+
+    <label>
+      Correo electrónico
+      <input formControlName="email" type="email" autocomplete="email" />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <span class="error">Correo inválido</span>
+      }
+    </label>
+
+    <label>
+      Contraseña
+      <input formControlName="password" type="password" autocomplete="new-password" />
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <span class="error">Mínimo 6 caracteres</span>
+      }
+    </label>
+
+    <fieldset>
+      <legend>Tipo de cuenta</legend>
+      <label class="radio">
+        <input type="radio" formControlName="role" value="adopter" />
+        <span>Adoptante</span>
+      </label>
+      <label class="radio">
+        <input type="radio" formControlName="role" value="shelter" />
+        <span>Refugio</span>
+      </label>
+    </fieldset>
+
+    @if (isShelter()) {
+      <div class="shelter-fields">
+        <label>
+          Nombre del refugio
+          <input formControlName="shelterName" type="text" />
+        </label>
+        <label>
+          Teléfono de contacto
+          <input formControlName="phone" type="tel" />
+        </label>
+        <label>
+          Ciudad
+          <input formControlName="city" type="text" />
+        </label>
+      </div>
+    }
+
+    @if (success()) {
+      <div class="alert alert--success">{{ success() }}</div>
+    }
+    @if (error()) {
+      <div class="alert alert--error">{{ error() }}</div>
+    }
+
+    <button type="submit" [disabled]="loading()">Crear cuenta</button>
+  </form>
+
+  <footer>
+    <p>
+      ¿Ya tienes una cuenta?
+      <a routerLink="/auth/login">Inicia sesión</a>
+    </p>
+  </footer>
+</section>

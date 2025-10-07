@@ -1,0 +1,127 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+  }
+}
+
+.media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.content {
+  padding: 1.25rem 1.5rem 0.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+}
+
+.badge {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.1);
+  color: #047857;
+  font-weight: 600;
+
+  &.badge--adopted {
+    background: rgba(248, 113, 113, 0.15);
+    color: #b91c1c;
+  }
+}
+
+dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+
+  dt {
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.description {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #374151;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem 1.5rem 1.5rem;
+
+  button,
+  .secondary {
+    flex: 1;
+    border-radius: 999px;
+    padding: 0.65rem 1rem;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    text-align: center;
+  }
+
+  button {
+    background: linear-gradient(90deg, #ec4899, #6366f1);
+    color: #ffffff;
+
+    &:hover {
+      background: linear-gradient(90deg, #db2777, #4f46e5);
+    }
+  }
+
+  .secondary {
+    background: transparent;
+    color: #6366f1;
+    text-decoration: none;
+    border: 1px solid rgba(99, 102, 241, 0.4);
+
+    &:hover {
+      background: rgba(99, 102, 241, 0.1);
+    }
+  }
+}

@@ -1,0 +1,73 @@
+@if (loading()) {
+  <section class="state">
+    <p>Cargando información de la mascota...</p>
+  </section>
+} @else if (error()) {
+  <section class="state state--error">
+    <p>{{ error() }}</p>
+    <a routerLink="/" class="link">Volver al inicio</a>
+  </section>
+} @else if (pet()) {
+  <section class="header">
+    <img
+      [src]="pet()?.photoURL || 'https://placehold.co/640x420?text=Pet'"
+      [alt]="pet()?.name"
+      loading="lazy"
+    />
+    <div>
+      <p class="eyebrow">{{ pet()?.species }} · {{ pet()?.breed || 'Sin raza definida' }}</p>
+      <h1>{{ pet()?.name }}</h1>
+      <p class="meta">
+        {{ pet()?.age }} años · {{ pet()?.location || 'Ubicación sin especificar' }}
+      </p>
+      <p class="description">
+        {{ pet()?.description || 'El refugio aún no ha agregado una descripción completa.' }}
+      </p>
+      <div class="shelter" *ngIf="pet()?.shelter">
+        <h3>Refugio</h3>
+        <p>{{ pet()?.shelter?.shelterName || pet()?.shelter?.name }}</p>
+        <p class="city">{{ pet()?.shelter?.city || 'Ubicación no disponible' }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="actions">
+    @if (success()) {
+      <div class="alert alert--success">{{ success() }}</div>
+    }
+    @if (error()) {
+      <div class="alert alert--error">{{ error() }}</div>
+    }
+
+    @if (isShelter()) {
+      <article class="info">
+        <h2>Eres parte de un refugio</h2>
+        <p>
+          Esta vista permite revisar la ficha pública de la mascota. Gestiona solicitudes desde el panel de refugio.
+        </p>
+        <a routerLink="/shelter/requests" class="button">Ir a solicitudes</a>
+      </article>
+    } @else {
+      <form [formGroup]="requestForm" (ngSubmit)="submitRequest()" id="adoption-form">
+        <h2>Solicitar adopción</h2>
+        @if (!canRequestAdoption()) {
+          <p class="hint">
+            Debes iniciar sesión como adoptante para enviar una solicitud.
+            <a (click)="redirectToLogin(pet()?.id || 0)">Iniciar sesión</a>
+          </p>
+        }
+
+        <label>
+          Cuéntale al refugio por qué quieres adoptar
+          <textarea
+            formControlName="message"
+            rows="5"
+            placeholder="Describe tu experiencia con mascotas, tu entorno familiar y cualquier dato relevante."
+          ></textarea>
+        </label>
+
+        <button type="submit" [disabled]="!canRequestAdoption()">Enviar solicitud</button>
+      </form>
+    }
+  </section>
+}
